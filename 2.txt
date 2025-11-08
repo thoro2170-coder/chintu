@@ -1,0 +1,53 @@
+def linear_search(account_list, target):
+    """
+    Performs linear search on the list.
+    Returns the index if found, otherwise -1.
+    """
+    for index, account_id in enumerate(account_list):
+        if account_id == target:
+            return index
+    return -1
+
+
+def binary_search(account_list, target):
+    """
+    Performs binary search on a sorted copy of the list.
+    Returns the index in the sorted list if found, otherwise -1.
+    """
+    sorted_list = sorted(account_list)  # Avoid modifying original list
+    low, high = 0, len(sorted_list) - 1
+
+    while low <= high:
+        mid = (low + high) // 2
+        if sorted_list[mid] == target:
+            return mid
+        elif sorted_list[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+
+
+# ---------- Sample customer account list ----------
+customer_accounts = [1025, 1001, 1050, 1100, 1085]
+
+# ---------- Input ----------
+try:
+    search_id = int(input("Enter Customer Account ID to search: "))
+except ValueError:
+    print("Invalid input. Please enter a numeric account ID.")
+    exit()
+
+# ---------- Linear Search ----------
+lin_result = linear_search(customer_accounts, search_id)
+if lin_result != -1:
+    print(f"[Linear Search] Account ID {search_id} found at position {lin_result}")
+else:
+    print(f"[Linear Search] Account ID {search_id} not found.")
+
+# ---------- Binary Search ----------
+bin_result = binary_search(customer_accounts, search_id)
+if bin_result != -1:
+    print(f"[Binary Search] Account ID {search_id} found at position {bin_result}")
+else:
+    print(f"[Binary Search] Account ID {search_id} not found.")
