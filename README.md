@@ -1,2 +1,0 @@
-# chintu
-student
