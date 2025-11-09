@@ -1,0 +1,55 @@
+from collections import deque
+
+# ---------- Graph Data ----------
+nodes = ['A', 'B', 'C', 'D', 'E', 'F']
+index = {n: i for i, n in enumerate(nodes)}
+
+# Adjacency Matrix for DFS
+graph_matrix = [
+    [0, 1, 1, 0, 0, 0],  # A
+    [1, 0, 0, 1, 1, 0],  # B
+    [1, 0, 0, 0, 0, 1],  # C
+    [0, 1, 0, 0, 1, 0],  # D
+    [0, 1, 0, 1, 0, 1],  # E
+    [0, 0, 1, 0, 1, 0]   # F
+]
+
+# ---------- DFS (Depth First Search) ----------
+visited = [False] * len(nodes)
+
+def dfs(node_index):
+    visited[node_index] = True
+    print(nodes[node_index], end=" ")
+    for j in range(len(nodes)):
+        if graph_matrix[node_index][j] == 1 and not visited[j]:
+            dfs(j)
+
+print("DFS starting from A:")
+dfs(index['A'])
+print("\n")
+
+# ---------- Adjacency List for BFS ----------
+graph_list = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B', 'E'],
+    'E': ['B', 'D', 'F'],
+    'F': ['C', 'E']
+}
+
+# ---------- BFS (Breadth First Search) ----------
+def bfs(start):
+    visited = set([start])
+    q = deque([start])
+    print("BFS starting from A:")
+    while q:
+        node = q.popleft()
+        print(node, end=" ")
+        for neigh in graph_list[node]:
+            if neigh not in visited:
+                visited.add(neigh)
+                q.append(neigh)
+    print("\n")
+
+bfs('A')

@@ -1,0 +1,53 @@
+from collections import deque
+
+class EventSystem:
+    def __init__(self):
+        self.q = deque()  # FIFO queue
+
+    def add(self, name):
+        self.q.append(name)
+        print(f"Added: {name}")
+
+    def process(self):
+        if self.q:
+            print(f"Processing: {self.q.popleft()}")
+        else:
+            print("No events to process.")
+
+    def show(self):
+        print("Pending:", list(self.q) if self.q else "None")
+
+    def cancel(self, name):
+        try:
+            self.q.remove(name)
+            print(f"Canceled: {name}")
+        except ValueError:
+            print(f"Not found: {name}")
+
+
+def main():
+    sys = EventSystem()
+    menu = (
+        "\n--- Event System ---\n"
+        "1) Add  2) Process  3) Show  4) Cancel  5) Exit\n"
+        "Choice: "
+    )
+
+    while True:
+        choice = input(menu).strip()
+        if choice == "1":
+            sys.add(input("Event name: ").strip())
+        elif choice == "2":
+            sys.process()
+        elif choice == "3":
+            sys.show()
+        elif choice == "4":
+            sys.cancel(input("Event to cancel: ").strip())
+        elif choice == "5":
+            print("Bye!")
+            break
+        else:
+            print("Invalid choice.")
+
+if __name__ == "__main__":
+    main()

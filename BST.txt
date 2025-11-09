@@ -1,0 +1,100 @@
+class Node:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+
+
+class BST:
+    def __init__(self):
+        self.root = None
+
+    # ---------- INSERT ----------
+    def insert(self, key):
+        self.root = self._insert(self.root, key)
+
+    def _insert(self, root, key):
+        if root is None:
+            return Node(key)
+        if key < root.key:
+            root.left = self._insert(root.left, key)
+        elif key > root.key:
+            root.right = self._insert(root.right, key)
+        return root
+
+    # ---------- SEARCH ----------
+    def search(self, key):
+        return self._search(self.root, key)
+
+    def _search(self, root, key):
+        if root is None or root.key == key:
+            return root
+        if key < root.key:
+            return self._search(root.left, key)
+        else:
+            return self._search(root.right, key)
+
+    # ---------- DELETE ----------
+    def delete(self, key):
+        self.root = self._delete(self.root, key)
+
+    def _delete(self, root, key):
+        if root is None:
+            return None
+
+        if key < root.key:
+            root.left = self._delete(root.left, key)
+        elif key > root.key:
+            root.right = self._delete(root.right, key)
+        else:
+            # Case 1: No child or one child
+            if root.left is None:
+                return root.right
+            elif root.right is None:
+                return root.left
+
+            # Case 2: Two children → find inorder successor
+            min_node = self._min_node(root.right)
+            root.key = min_node.key
+            root.right = self._delete(root.right, min_node.key)
+        return root
+
+    def _min_node(self, node):
+        while node.left:
+            node = node.left
+        return node
+
+    # ---------- INORDER TRAVERSAL ----------
+    def inorder(self):
+        result = []
+        self._inorder(self.root, result)
+        return result
+
+    def _inorder(self, root, result):
+        if root:
+            self._inorder(root.left, result)
+            result.append(root.key)
+            self._inorder(root.right, result)
+
+
+# ---------- MAIN ----------
+if __name__ == "__main__":
+    bst = BST()
+
+    # Insert elements
+    for k in [50, 30, 20, 40, 70, 60, 80]:
+        bst.insert(k)
+
+    print("Inorder traversal:", bst.inorder())
+
+    # Search
+    key = 40
+    if bst.search(key):
+        print(f"Key {key} found.")
+    else:
+        print(f"Key {key} not found.")
+
+    # Delete some keys
+    for k in [20, 30, 50]:
+        bst.delete(k)
+        print(f"After deleting {k}: {bst.inorder()}")

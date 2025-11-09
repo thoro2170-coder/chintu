@@ -1,0 +1,32 @@
+salaries=[35000.50,47000.75,29000.00,60000.25,54000.60,51000.10]
+def selection_sort(arr):
+    for i in range(len(arr)):
+        min_idx = i
+        for j in range (i+1,len(arr)):
+            if arr[j]< arr[min_idx]:
+                min_idx=j
+        arr[i],arr[min_idx]= arr[min_idx],arr[i]
+    return arr
+
+def bubble_sort(arr):
+    for i in range (len(arr)):
+        for j in range (0,len(arr)-i-1):
+            if arr[j]> arr[j+1]:
+                arr[j],arr[j+1]= arr[j+1],arr[j]
+    return arr
+
+#---------Use of Sortings---------
+selection_sorted = selection_sort(salaries.copy())
+print("Salaries sorted using selection sort:")
+print(selection_sorted)
+print("top 5 highest salaries:")
+print(selection_sorted[-5:][::-1])
+
+#------------Use of Bubble sort--------------
+bubble_sorted= bubble_sort(salaries.copy())
+print("Salaries sorted using bubble sort:")
+print(bubble_sorted)
+print("Top 5 highest salaries:")
+print(bubble_sorted[-5:][::-1])
+
+    
