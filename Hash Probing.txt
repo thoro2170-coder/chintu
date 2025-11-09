@@ -1,0 +1,87 @@
+class HashTable:
+    DELETED = "<DELETED>"
+
+    def __init__(self, size):
+        self.size = size
+        self.table = [None] * size
+
+    def hash(self, key):
+        return key % self.size
+
+    def insert(self, key):
+        idx = self.hash(key)
+        start = idx
+
+        while self.table[idx] not in (None, self.DELETED):
+            if self.table[idx] == key:
+                print(f"Key {key} already exists at index {idx}!")
+                return
+            idx = (idx + 1) % self.size
+            if idx == start:
+                print("Hash Table is full! Cannot insert more keys.")
+                return
+
+        self.table[idx] = key
+        print(f"Key {key} inserted at index {idx}")
+
+    def search(self, key):
+        idx = self.hash(key)
+        start = idx
+
+        while self.table[idx] is not None:
+            if self.table[idx] == key:
+                print(f"Key {key} found at index {idx}")
+                return idx
+            idx = (idx + 1) % self.size
+            if idx == start:
+                break
+        print(f"Key {key} not found.")
+        return None
+
+    def delete(self, key):
+        idx = self.hash(key)
+        start = idx
+
+        while self.table[idx] is not None:
+            if self.table[idx] == key:
+                self.table[idx] = self.DELETED
+                print(f"Key {key} deleted from index {idx}")
+                return
+            idx = (idx + 1) % self.size
+            if idx == start:
+                break
+        print(f"Key {key} not found. Cannot delete.")
+
+    def display(self):
+        print("\n--- Hash Table ---")
+        for i, val in enumerate(self.table):
+            if val is None:
+                print(f"{i}: Empty")
+            elif val == self.DELETED:
+                print(f"{i}: Deleted")
+            else:
+                print(f"{i}: {val}")
+
+
+# ---------- MAIN PROGRAM ----------
+if __name__ == "__main__":
+    size = int(input("Enter hash table size: "))
+    ht = HashTable(size)
+
+    while True:
+        print("\n1. Insert  2. Search  3. Delete  4. Display  5. Exit")
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            ht.insert(int(input("Enter key: ")))
+        elif choice == "2":
+            ht.search(int(input("Enter key: ")))
+        elif choice == "3":
+            ht.delete(int(input("Enter key: ")))
+        elif choice == "4":
+            ht.display()
+        elif choice == "5":
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice! Try again.")
